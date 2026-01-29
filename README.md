@@ -1,81 +1,178 @@
-# supplier-selection-optimization
-Engineered a Python-based solution to systematically evaluate and recommend optimal suppliers from a pool of suppliers, driving strategic decision-making and enhancing operational efficiency.
+# Data-Driven Supplier Selection & Cost Optimisation
+## *Analytics project focused on building a model-ready data foundation for cost-efficient sourcing decisions*
 
-# Supplier Selection and Cost Optimisation for Acme Corporation
+# Overview
 
-## Executive Summary:
-This project details the development of a robust data engineering and feature preprocessing pipeline designed to optimise supplier selection for Acme Corporation based on cost. The work focused on transforming raw, complex transactional data into a clean, normalised, and highly optimised dataset. This foundational preparation is crucial for enabling the subsequent development of predictive models that can accurately identify the most cost-effective suppliers for various tasks, thereby driving significant operational efficiencies and cost savings. 
+This project demonstrates how data engineering and feature optimisation can enable smarter, cost-driven supplier selection in complex procurement environments.
 
-## Problem Statement:
-Acme Corporation faced a critical challenge in efficiently identifying the most cost-effective suppliers from a diverse pool for a wide array of tasks. The core objective was to establish a data-driven framework that could rigorously assess supplier performance and task characeristics. This project's contribution was to build the essential data infrastructure, ensuring a high-quality, feature-rich dataset, indispensable for developing a predictive model that could recommend optimal suppliers and minimise overall task costs. 
+Working with a simulated dataset for Acme Corporation, I built a robust data preparation and feature engineering pipeline to transform raw transactional, task, and supplier data into a clean, model-ready dataset for supplier cost optimisation.
 
-## Data Sources and Confidentiality:
-The analysis was conducted using a proprietary dataset provided by the university. **Due to its confidential and academic nature, this dataset cannot be shared publicly in this repository**. 
+Using:
 
-The dataset comprised three distinct components:
-* **cost_data**: 7680 records detailing the cost of a task performed by a specific supplier, including 'Task ID', 'Supplier ID', and 'Cost'.
-* **supplier_data**: Information for 64 unique suppliers, each defined by 18 'Supplier Features (SF).
-* **task_data**: Details for 130 unique tasks, each initially characterised by 116 'Task Features (TF)'.
+- Multi-source data integration (tasks, suppliers, costs)
 
-## Methodology:
-A meticulous multi-stage data preparation and feature engineering pipeline was implemented to ensure data quality and suitability for advanced modelling:
-1. **Data Ingestion and Initial Assessment**:
-   * The three primary datasets ('cost_data' , 'supplier_data' , 'task_data') were loaded into pandas DataFrames.
-   * Initial structural inspection was performed using '.info()' to verify data types, non-null counts, and memory footprint.
-   * Thorough checks for missing values were conducted across all datasets, confirming data completeness in the raw state.
-   * Duplicate entries (10 from 'cost_data' , 2 from 'supplier_data') were identified andremoved to ensure data integrity and uniqueness.
+- Feature selection using variance and correlation analysis
 
-2. **Data Transformation and Integration**:
-   * **Task ID Format Standardisation**: A critical step involved normalising the 'Task ID' format. Task IDs in 'task_data' were in 'MM DD' format, while 'cost_data' used 'DD/MM/YYYY'. All 'Task ID' entries were consistently converted to 'YYYY-MM-DD'. enabling seamless merging across datasets.
-   * **Consolidated Dataset Creation**: 'cost_data' was integrated with 'task_data' and 'supplier_data' to form a comprehensive dataset, linking task costs with both task and supplier attributes. Task IDs without corresponding cost values were systematically dropped.
+- Feature scaling and normalisation for ML readiness
 
-3. **Feature Selection - Low Variance Filtering**:
-   * To enhance model efficiency and eliminate noise, features from 'task_data' that exhibited minimal variability were removed.
-   * Features with a variance below a threshold of **0.01** were identified and dropped. This significantly reduced the initial **116 Task Feastures by 33**, resulting in a more focused and informative set of attributes. Supplier features were retained as they demonstrated sufficient variance.
+- Exploratory analysis to validate data quality and structure
 
-4. **Feature Scaling (Min-Max Normalisation)**:
-   * To prevent features with larger numerical ranges from dominating model training, 'MinMaxScaler' from scikit-learn was applied.
-   * All numerical features in both 'task_data' and 'supplier_data' were scaled to a consistent range of **-1 to 1**. This normalisation step is fundamental for the optimal performance of many machine learning algorithms.
+The goal was to create a reliable analytical foundation that supports predictive supplier recommendation, improves cost transparency, and enables data-driven sourcing decisions instead of intuition-based selection.
 
-5. **Feature Selection - High Correlation Filtering**:
-   * To mitigate multicollinearity and improve model interpretability, a correlation analysis was performed on the processed Task Features.
-   * A correlation matrix was generated to visualise inter-feature relationships.
-   * For any feature pair exhibiting a correlation coefficient of **0.8 or higher**, one of the features was removed. This step effectively reduced the number of Task Features by **64**, culminating in a final set of **19** robust and uncorrelated Task Features**, ready for predictive modelling.
+# Business Problem
 
-## Key Findings and Impact:
-The meticulous data preparaion and feature engineering pipeline successfully culminated in a **clean, normalised, and highly optimised dataset**.This rigorously prepared dataset is the cornerstone for building accurate and robust predictive models for supplier selection. By systematically addressing data quality, relevance, and collinearity, this project:
-* **Enables Accurate Cost Prediction**: The streamlined dataset is primed for machine learning models to precisely forecast task costs, leading to better budgeting and financial planning.
-* **Improves Model Interpretability**: By removing highly correlated features, future models will be more transparent, allowing Acme Corporation to clearly understand the key drivers of supplier costs.
-* **Faciliatates Data-Driven Sourcing**: This project provides Acme Corporation with a powerful analytical asset, enabling a transition from intuitive supplier selection to a data-informed startegy for identifying the most cost-effective and suitabke partners.
+Acme Corporation faced challenges in selecting the most cost-effective suppliers for a wide range of operational tasks:
 
-## Tools and Technologies:
-* **Programming Language**: Python
-* **Key Libraries**:
-  * 'pandas': Indispensable for all data manipulation, cleaning, and transformation tasks.
-  * 'numpy': Utilised for high-performance numerical operations.
-  * 'scikit-learn':Employed for 'MinMaxScaler' for feature engineering, and for implementing variance-based and correlation-based feature selection.
-  * 'matplotlib' and 'seaborn': Used for creating insightful visualisations, particularly the correlation matrix to guide feature selection.
+- Supplier selection relied heavily on manual judgement
 
-## Confidentiality Note and Project Deliverables:
-Due to the confidential nature of the dataset provided by the university and the detailes analysis performed, **neither the raw data nor the complete project code can be shared publicly** in this repository. This README.md serves as a comprehensive and detailed overview of the problem, the robust methodology employed, and the significant impact derived from the project. 
+- High-dimensional task and supplier data made comparison difficult
 
-While the full code is not shared, pivotal steps and methodologies are conceptually explained and can be illustrated with key data snapshots withing the original technical report **(available on request)**.
+- No standardised framework to evaluate supplier–task cost efficiency
 
-## Visualisations:
+- Poor data readiness for predictive or optimisation models
 
-Below are some key visualisations illustrating the project's data transformations and insights:
+Key questions addressed:
 
-* **Initial Data Structures**:
-  * **Figure 1**: [Early Exploration on cost_data data sets](https://github.com/aarushijain16/supplier-selection-optimization/blob/main/1.png)
-  * **Figure 2**: [Early Exploration on supplier_data data sets](https://github.com/aarushijain16/supplier-selection-optimization/blob/main/2.png)
-  * **Figure 3**: [Early Exploration on task_data data sets](https://github.com/aarushijain16/supplier-selection-optimization/blob/main/3.png)
-* **Missing Value Confirmation**:
-  * **Figure 4**: [No Missing Values in the Data sets](https://github.com/aarushijain16/supplier-selection-optimization/blob/main/4.png)
-* **Date Format Standardisation**:
-  * **Figure 5**: [Changing Date Format in Task ID](https://github.com/aarushijain16/supplier-selection-optimization/blob/main/5.png)
-* **Feature Scaling Impact**:
-  * **Figure 6**: [Normalising Features Range from -1 to 1](https://github.com/aarushijain16/supplier-selection-optimization/blob/main/6.png)
-  * **Figure 7**: [Normalised Task Features](https://github.com/aarushijain16/supplier-selection-optimization/blob/main/7.png)
-  * **Figure 8**: [Normalised Supplier Features](https://github.com/aarushijain16/supplier-selection-optimization/blob/main/8.png)
-* **Correlation Matrix Heatmap**:
-  * **Figure 9**: [Correlation Chart](https://github.com/aarushijain16/supplier-selection-optimization/blob/main/9.png)
+- How can supplier performance be evaluated consistently across tasks?
+
+- Which task and supplier features actually matter for cost optimisation?
+
+- How can raw operational data be transformed into model-ready inputs?
+
+- How can procurement move from reactive decisions to predictive sourcing?
+
+# Solution Approach
+
+I designed a structured, end-to-end data engineering and feature optimisation pipeline to support future supplier recommendation models.
+
+🔹 Data Ingestion & Quality Validation
+
+- Integrated three datasets: task data, supplier data, and task-supplier cost data
+
+- Performed structural validation using schema checks and data profiling
+
+- Identified and removed duplicate records to ensure data integrity
+
+- Confirmed completeness (no missing values across datasets)
+
+🔹 Data Transformation & Integration
+
+- Standardised inconsistent Task ID formats across datasets
+
+- Unified all Task IDs into a consistent date-based format
+
+- Merged task, supplier, and cost data into a consolidated analytical table
+
+- Removed records without valid cost linkage to ensure modelling relevance
+
+🔹 Feature Selection – Variance Filtering
+
+- Evaluated variability across 116 task features
+
+- Removed low-variance features below a defined threshold
+
+- Reduced noise while retaining informative task characteristics
+
+- Supplier features retained due to sufficient variability
+
+🔹 Feature Scaling & Normalisation
+
+- Applied Min-Max scaling to all numerical features
+
+- Normalised values to a consistent range (-1 to 1)
+
+- Ensured fair feature contribution during future model training
+
+🔹 Feature Selection – Correlation Filtering
+
+- Performed correlation analysis on task features
+
+- Identified highly correlated feature pairs
+
+- Removed redundant features to reduce multicollinearity
+
+- Reduced task features from 116 → 19 robust, independent features
+
+# Key Business Insights and Strategic Impact
+
+*(Translated for procurement, operations, and analytics teams)*
+
+- High-dimensional operational data hides true cost drivers
+ → Feature reduction improves clarity and decision quality
+
+- Redundant and correlated features weaken model reliability
+ → Correlation filtering improves interpretability and robustness
+
+- Normalised features are critical for fair supplier comparison
+ → Prevents scale-driven bias in predictive models
+
+- Data preparation is the biggest bottleneck in analytics adoption
+ → Strong foundations unlock faster, more accurate optimisation models
+
+This project converts raw procurement data into a strategic analytical asset.
+
+# Strategic Recommendations
+
+- Establish a standardised data pipeline for supplier evaluation
+
+- Use feature-optimised datasets as inputs for supplier recommendation models
+
+- Integrate cost prediction into procurement planning workflows
+
+- Reduce reliance on manual judgement for supplier selection
+
+- Treat data engineering as a core capability, not a one-time task
+
+# Tools and Technologies
+
+- Python
+
+- pandas, NumPy – data cleaning, transformation, integration
+
+- scikit-learn – feature scaling, variance filtering, correlation analysis
+
+- matplotlib / seaborn – exploratory analysis and correlation heatmaps
+
+# Why this Matters for Operations & Analytics Teams
+
+This project shows how analytics can:
+
+- Enable predictive, cost-efficient sourcing
+
+- Improve supplier comparison transparency
+
+- Support scalable procurement decision-making
+
+- Lay the groundwork for optimisation and ML models
+
+The same approach applies to:
+
+- Procurement & sourcing analytics
+
+- Vendor management systems
+
+- Cost optimisation initiatives
+
+- Supply chain decision support
+
+# 📌 Note
+
+This project is based on a confidential, university-provided dataset.
+
+Raw data and full implementation code are not shared publicly.
+
+The repository focuses on methodology, decision logic, and business impact.
+
+# 💬 How I Can Help You
+
+If your organisation wants to:
+
+- Optimise supplier selection using data
+
+- Reduce sourcing costs through predictive analytics
+
+- Build model-ready procurement datasets
+
+- Move from intuition-led to analytics-led sourcing
+
+I can help design data pipelines, feature engineering frameworks, and analytics solutions tailored to your procurement data.
